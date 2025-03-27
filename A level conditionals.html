@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage 2 Storytelling</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .sentence-line {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .dropdown {
+      flex: 1;
+      padding: 5px;
+    }
+
+    .dropdown select {
+      width: 100%;
+    }
+
+    button {
+      display: block;
+      margin-top: 10px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #result {
+      margin-top: 20px;
+      white-space: pre-line; 
+    }
+  </style>
+</head>
+<body>
+  <h1>A-Level: Conditionals. Create 3 conditional sentences.</h1>
+
+  <div id="sentences-container">
+    <div class="sentence-line">
+      <div class="dropdown">
+        <select>
+          <option value="" selected disabled>1 Select if/if..not</option>
+          <option value=" "> </option>
+          <option value="si">si</option>
+          <option value="nisi">nisi</option>
+        </select>
+      </div>
+      <div class="dropdown">
+        <select>
+          <option value="" selected disabled>2 Select subject</option>
+          <option value=" "> </option>
+          <option value="tu">tu</option>
+        </select>
+      </div>
+      <div class="dropdown">
+        <select>
+          <option value="" selected disabled>4 Select object</option>
+          <option value=" "> </option>
+          <option value="cenam">cenam</option>
+          <option value="cibum">cibum</option>
+          <option value="cubiculum">cubiculum</option>
+          <option value="venenum">venenum</option>
+          <option value="vinum">vinum</option>
+        </select>
+      </div>
+      <div class="dropdown">
+        <select>
+          <option value="" selected disabled>3 Select Verb</option>
+          <option value=" "> </option>
+          <option value="paraveris,">paraveris</option>
+          <option value="paras,">paras</option>
+          <option value="paravisti,">paravisti</option>
+          <option value="pares,">pares</option>
+          <option value="parares,">parares</option>
+          <option value="paravisses,">paravisses</option>
+        </select>
+      </div>
+      <div class="dropdown">
+        <select>
+          <option value="" selected disabled>5 Select subject</option>
+          <option value=" "> </option>
+          <option value="nos">nos</option>
+        </select>
+      </div>
+      <div class="dropdown">
+        <select>
+          <option value="" selected disabled>6 Select Verb</option>
+          <option value=" "> </option>
+          <option value="dormiemus">dormiemus</option>
+          <option value="dormimus">dormimus</option>
+          <option value="dormivimus">dormivimus</option>
+          <option value="dormiamus">dormiamus</option>
+          <option value="dormiremus">dormiremus</option>
+          <option value="dormivissemus">dormivissemus</option>
+          <option value="consumemus">consumemus</option>
+          <option value="consumimus">consumimus</option>
+          <option value="consumpsimus">consumpsimus</option>
+          <option value="comsumamus">consumamus</option>
+          <option value="consumeremus">consumeremus</option>
+          <option value="consumpsissemus">consumpsissemus</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" id="add-sentence-btn">Add Sentence</button>
+  <p id="result"></p>
+
+  <script>
+    const sentencesContainer = document.getElementById('sentences-container');
+    const addSentenceBtn = document.getElementById('add-sentence-btn');
+    const resultElement = document.getElementById('result');
+
+    function createDropdown(options, placeholder) {
+      const dropdown = document.createElement('div');
+      dropdown.className = 'dropdown';
+
+      const select = document.createElement('select');
+      select.innerHTML = `<option value="" selected disabled>Select ${placeholder}</option>`;
+      options.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option;
+        optionElement.textContent = option;
+        select.appendChild(optionElement);
+      });
+
+      dropdown.appendChild(select);
+
+      return dropdown;
+    }
+
+function createSentenceLine() {
+  const sentenceLine = document.createElement('div');
+  sentenceLine.className = 'sentence-line';
+
+  const sentence = {
+    If: createDropdown([' ', 'si', 'nisi'], '1 if/if...not'),
+    Subject1: createDropdown([' ', 'tu'], '2 Subject'),
+    Object: createDropdown([' ', 'cenam', 'cibum', 'cubiculum', 'venenum', 'vinum'], '4 Object'),
+    Verb1: createDropdown([' ', 'paraveris,', 'paras,', 'paravisti,', 'pares,', 'parares,', 'paravisses,'], '3 Verb'),
+    Subject2: createDropdown([' ', 'nos'], '5 Subject'),
+    Verb2: createDropdown(['dormiemus', 'dormimus', 'dormivimus', 'dormiamus', 'dormiremus', 'dormivissemus', 'consumemus', 'consumimus', 'consumpsimus', 'comsumamus', 'consumeremus', 'consumpsissemus'], '6 Verb'),
+  };
+
+  Object.values(sentence).forEach(dropdown => {
+    sentenceLine.appendChild(dropdown);
+  });
+
+  sentencesContainer.appendChild(sentenceLine);
+}
+
+
+    addSentenceBtn.addEventListener('click', createSentenceLine);
+
+    function updateResult() {
+      const sentenceLines = document.querySelectorAll('.sentence-line');
+      let result = '';
+
+      sentenceLines.forEach(sentenceLine => {
+        const selectedItems = sentenceLine.querySelectorAll('.dropdown select');
+const words = Array.from(selectedItems).map(select => select.value);
+    const filteredWords = words.map(word => {
+      switch (word) {
+        case 'Select':
+        case 'Select Nominative':
+        case 'Select Accusative':
+        case 'Select Preposition':
+        case 'Select Adverb':
+        case 'Select Verb':
+          return '';
+        default:
+          return word;
+      }
+    }).filter(word => word !== '');
+
+    const sentenceText = filteredWords.join(' ');
+
+        if (sentenceText !== '') {
+          result += sentenceText + '. ';
+        }
+      });
+
+      resultElement.textContent = result;
+    }
+
+    sentencesContainer.addEventListener('input', updateResult);
+  </script>
+</body>
+</html>
